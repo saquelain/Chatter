@@ -1,5 +1,6 @@
 import 'package:chatter/helpers.dart';
 import 'package:chatter/models/models.dart';
+import 'package:chatter/screens/chat_screen.dart';
 import 'package:chatter/theme.dart';
 import 'package:chatter/widgets/avatar.dart';
 import 'package:faker/faker.dart';
@@ -42,39 +43,96 @@ class _MessageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Avatar.medium(url: messageData.profilePicture),
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).push(ChatScreen.route(messageData));
+      },
+      child: Container(
+        height: 100,
+        margin: EdgeInsets.symmetric(horizontal: 8),
+        decoration: BoxDecoration(
+            border: Border(
+                bottom: BorderSide(
+          color: Colors.grey,
+          width: 0.2,
+        ))),
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Row(
             children: [
-              Text(
-                messageData.senderName,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  letterSpacing: 0.2,
-                  wordSpacing: 1.5,
-                  fontWeight: FontWeight.w900
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Avatar.medium(url: messageData.profilePicture),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Text(
+                        messageData.senderName,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            letterSpacing: 0.2,
+                            wordSpacing: 1.5,
+                            fontWeight: FontWeight.w900),
+                      ),
+                    ),
+                    SizedBox(
+                        height: 20,
+                        child: Text(
+                          messageData.message,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontSize: 12, color: AppColors.textFaded),
+                        )),
+                  ],
                 ),
               ),
-              SizedBox(
-                  height: 20,
-                  child: Text(
-                    messageData.message,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: AppColors.textFaded
+              Padding(
+                padding: const EdgeInsets.only(right: 20.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    SizedBox(
+                      height: 4,
                     ),
-                  ))
+                    Text(
+                      messageData.dateMessage.toUpperCase(),
+                      style: TextStyle(
+                          fontSize: 11,
+                          letterSpacing: -0.2,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textFaded),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Container(
+                      width: 18,
+                      height: 18,
+                      decoration: BoxDecoration(
+                        color: AppColors.secondary,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: Text(
+                          '1',
+                          style: TextStyle(
+                              fontSize: 10, color: AppColors.textLigth),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              )
             ],
           ),
-        )
-      ],
+        ),
+      ),
     );
   }
 }
